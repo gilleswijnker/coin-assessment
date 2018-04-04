@@ -1,0 +1,19 @@
+Dag 1.
+- Grove opzet gemaakt het van project (MVC). Deze opzet steeds bijgewerkt adhv voortschrijdend inzicht.
+- Database gekozen: MongoDB. Redenen: gegevens zijn in JSON aangeleverd, en bevatten twee typen records. MongoDB kende ik van een presentatie.
+- Taal: Java icm JUnit en Spring
+- Build: Maven
+- Deply: Docker (app en db aparte container)
+- Model: API/modules/libraries tussen Java en MongoDB uitgezocht. Spring ondersteund interactie tussen Java en MongoDB.
+- Controller: enigszins bekend mee door een van de Academy-opdrachten. Gebruik maken van Spring om een REST-controller op te zetten.
+- View: nog geen echt idee. HTML-pagina, JavaScript? NPM gebruiken? Request, React, Test-Drive?
+
+Dag 2.
+- Aanpak: van achter (DB/model) naar voor werken (view).
+- Onderzoek gedaan naar combinatie JUnit, Spring en Fongo (Fake MongoDB). Werkende voorbeelden gevonden, maar niet zelf werkend gekregen.
+
+Dag 3.
+- Laatste poging ondernomen om JUnit, Spring en Fongo via .json bestand werkend te krijgen.
+- Poging gestaakt om via .json te werken. In test wordt Fongo-DB gevuld via code ipv .json.
+- Dit stelt mij in staat om via TDD het de benodigde queries te schrijven.
+- Mappenstructuur gedefinieerd

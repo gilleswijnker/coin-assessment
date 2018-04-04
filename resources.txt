@@ -1,0 +1,5 @@
+mongoimport --db coin --collection assessment --jsonArray --drop --file .\address_records.json\address_records.json
+
+https://spring.io/guides/gs/accessing-data-mongodb/
+https://www.npmjs.com/
+https://www.npmjs.com/package/request
