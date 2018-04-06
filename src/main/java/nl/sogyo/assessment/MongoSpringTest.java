@@ -19,20 +19,21 @@ public class MongoSpringTest implements CommandLineRunner{
 		SpringApplication.run(MongoSpringTest.class, args);
 	}
 	
-	@Autowired
-	BeanFactory beanFactory;
+//	@Autowired
+//	BeanFactory beanFactory;
 	
-	@Autowired
-	DatabaseRepository databaseRepository;
+//	@Autowired
+//	DatabaseRepository databaseRepository;
 	
 	@Autowired
 	DataNavigator dataNavigator;
 	
 	@Override
 	public void run(String... args) {
-		DataNavigator dn = beanFactory.getBean(DataNavigator.class, "itter");
+//		DataNavigator dn = beanFactory.getBean(DataNavigator.class, "itter");
 //		DataNavigator dn = new DataNavigator("itter");
-		System.out.println(dn.getTotalElements());
+		dataNavigator.executeQuery("itter", 0, 10);
+		System.out.println(dataNavigator.getTotalElements());
 //		//
 //		int pageSize = 2;
 //		int page = 0;
