@@ -22,6 +22,7 @@
 	</properties>
 
 	<dependencies>
+		<!-- application -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -31,29 +32,6 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
 		</dependency>
-		
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.9.4</version>
-		</dependency>
-        
-        <!-- logging dependencies -->
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			</dependency>
 
 		<!-- test dependencies -->
 		<dependency>
@@ -69,21 +47,20 @@
 		<dependency>
 			<groupId>com.lordofthejars</groupId>
 			<artifactId>nosqlunit-mongodb</artifactId>
-			<version>1.0.0-rc.5</version> <!-- 1.0.0-rc.5 -->
-			<!-- <version>${version.nosqlunit}</version>-->
+			<version>1.0.0-rc.5</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.easytesting</groupId>
-		  	<artifactId>fest-assert</artifactId>
-		  	<version>1.4</version>
-		  	<scope>test</scope>
 		</dependency>
 		<dependency>
 		  <groupId>com.github.fakemongo</groupId>
 		  <artifactId>fongo</artifactId>
 		  <version>2.2.0-RC1</version>
 		  <scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>2.17.0</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	

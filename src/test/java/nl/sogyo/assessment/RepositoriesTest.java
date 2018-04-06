@@ -3,8 +3,6 @@ package nl.sogyo.assessment;
 import static com.lordofthejars.nosqlunit.mongodb.InMemoryMongoDb.InMemoryMongoRuleBuilder.newInMemoryMongoDbRule;
 import static com.lordofthejars.nosqlunit.mongodb.MongoDbRule.MongoDbRuleBuilder.newMongoDbRule;
 
-import java.util.List;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +11,7 @@ import org.junit.Before;
 import org.junit.ClassRule;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+//import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +20,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -32,10 +29,8 @@ import com.lordofthejars.nosqlunit.mongodb.InMemoryMongoDb;
 import com.lordofthejars.nosqlunit.mongodb.MongoDbRule;
 import com.mongodb.MongoClient;
 
-import nl.sogyo.assessment.domainentities.Company;
-import nl.sogyo.assessment.domainentities.Person;
-import nl.sogyo.assessment.repositories.CompanyRepository;
-import nl.sogyo.assessment.repositories.PersonRepository;
+import nl.sogyo.assessment.domain.DatabaseEntity;
+import nl.sogyo.assessment.repositories.DatabaseRepository;
 
 
 @RunWith(SpringRunner.class)
@@ -50,94 +45,84 @@ public class RepositoriesTest {
     @Rule
     public MongoDbRule mongoDbRule = newMongoDbRule().defaultEmbeddedMongoDb("demo-test");
 
-	@Autowired private ApplicationContext applicationContext;
-	@Autowired private PersonRepository personRepository;
-	@Autowired private CompanyRepository companyRepository;
+//	@Autowired private ApplicationContext applicationContext;
+	@Autowired private DatabaseRepository databaseRepository;
 	
 	@Before
 	public void setupDB() {
-		this.personRepository.deleteAll();
-		this.personRepository.save(new PersonTest(1, "First", "Last", "street1", "Male", "123456789"));
-		this.personRepository.save(new PersonTest(2, "FirstName", "LastName", "street2", "Female", "987654321"));
-		this.personRepository.save(new PersonTest(3, "FirstName", "LastName", "street2", "Female", "987654321"));
-		this.companyRepository.save(new CompanyTest(4, "nameC", "street", "582471693"));
-		this.companyRepository.save(new CompanyTest(5, "nameC", "street", "741852963"));
-		this.companyRepository.save(new CompanyTest(6, "nameC", "street", "741852963"));
+		this.databaseRepository.deleteAll();
+		this.databaseRepository.save(new DatabaseEntity(1, "John", "D", "street1", "Male", "123456789"));
+		this.databaseRepository.save(new DatabaseEntity(2, "Jane", "A", "street2", "Female", "987654321"));
+		this.databaseRepository.save(new DatabaseEntity(3, "Adam", "C", "street3", "Female", "987654321"));
+		this.databaseRepository.save(new DatabaseEntity(4, "Bar", "street4", "582471693"));
+		this.databaseRepository.save(new DatabaseEntity(5, "Eel", "street5", "741852963"));
+		this.databaseRepository.save(new DatabaseEntity(6, "Foo", "street6", "741852963"));
 	}
 	
 	/*
 	 * Tests
 	 */
 	@Test
-    public void testCountAllPersons() {
-         int total = this.personRepository.findAll().size();
-         Assert.assertEquals(3, total);
-    }
-	
-	@Test
-    public void testCountAllCompanies() {
-         int total = this.companyRepository.findAll().size();
-         Assert.assertEquals(3, total);
-    }
-	
-	@Test
-	public void testFindAndSortPersons() {
-		Sort sort = new Sort(Direction.DESC, "id");
-		List<Person> persons = personRepository.findAll(sort);
+	public void areAllRecordsFound() {
+		int pageSize = 2;
+		int page = 0;
 		
-		int i = 3;
-		for (Person p : persons) {
-			Assert.assertEquals(i, p.id);
-			i--;
-		}
+		Pageable pageable = PageRequest.of(page, pageSize); 
+		Page<DatabaseEntity> pageDB = databaseRepository.findAll(pageable);
+		long nrItems = pageDB.getTotalElements();
+		Assert.assertEquals(6, nrItems);
 	}
 	
 	@Test
-	public void testFindPagingAndSortingPersons() {
-		int page = 2;
-		int pageSize = 1;
+	public void isJsonPersonCorrect() {
+		int pageSize = 6;
+		int page = 0;
 		
-		Pageable pageable = PageRequest.of(page, pageSize, Direction.DESC, "id");
-		Page<Person> pagePersons = personRepository.findAll(pageable);
-		List<Person> persons = pagePersons.getContent();
-		Assert.assertEquals(1, persons.get(0).id);
+		Pageable pageable = PageRequest.of(page, pageSize, Direction.ASC, "id"); 
+		Page<DatabaseEntity> pageDB = databaseRepository.findAll(pageable);
+		String jsonPerson = pageDB.getContent().get(0).toJson();
+		String expectedJson = "{\"id\":1,\"firstName\":\"John\",\"lastName\":\"D\",\"address\":\"street1\",\"gender\":\"Male\",\"phoneNumber\":\"123456789\"}";
+		Assert.assertEquals(expectedJson, jsonPerson);
 	}
 	
 	@Test
-	public void testFindAndSortCompanies() {
-		Sort sort = new Sort(Direction.DESC, "id");
-		List<Company> companies= companyRepository.findAll(sort);
+	public void isJsonCompanyCorrect() {
+		int pageSize = 6;
+		int page = 0;
 		
-		int i = 6;
-		for (Company c : companies) {
-			Assert.assertEquals(i, c.id);
-			i--;
-		}
+		Pageable pageable = PageRequest.of(page, pageSize, Direction.ASC, "id"); 
+		Page<DatabaseEntity> pageDB = databaseRepository.findAll(pageable);
+		String jsonCompany = pageDB.getContent().get(4).toJson();
+		String expectedJson = "{\"id\":5,\"companyName\":\"Eel\",\"address\":\"street5\",\"phoneNumber\":\"741852963\"}";
+		Assert.assertEquals(expectedJson, jsonCompany);
 	}
 	
 	@Test
-	public void testFindPagingAndSortingCompanies() {
-		int page = 2;
-		int pageSize = 1;
+	public void doesSearchInAllFieldsFindAll() {
+		int pageSize = 6;
+		int page = 0;
 		
-		Pageable pageable = PageRequest.of(page, pageSize, Direction.DESC, "id");
-		Page<Company> pageCompanies = companyRepository.findAll(pageable);
-		List<Company> companies = pageCompanies.getContent();
-		Assert.assertEquals(4, companies.get(0).id);
+		Pageable pageable = PageRequest.of(page, pageSize, Direction.ASC, "id"); 
+		Page<DatabaseEntity> pageDB = databaseRepository.findInAllFields("street", pageable);
+		long nrItems = pageDB.getTotalElements();
+		Assert.assertEquals(6, nrItems);
 	}
 	
-//	@Test
-//	public void testGetFirstRecord() {
-//		int total = this.personRepository.findFromTo(1, 1).size();
-//		Assert.assertEquals(1, total);
-//	}
+	@Test
+	public void doesSearchInAllFieldsFindSingle() {
+		int pageSize = 6;
+		int page = 0;
+		
+		Pageable pageable = PageRequest.of(page, pageSize, Direction.ASC, "id"); 
+		Page<DatabaseEntity> pageDB = databaseRepository.findInAllFields("joh", pageable);
+		long nrItems = pageDB.getTotalElements();
+		Assert.assertEquals(1, nrItems);
+	}
 	
-	/*
-	 * inner classes needed to run tests
-	 */
+
 	@Configuration
 	@EnableMongoRepositories
-	@ComponentScan(basePackageClasses = {PersonRepository.class})
+	@ComponentScan(basePackageClasses = {DatabaseRepository.class})
 	static class PersonRepoTestConfiguration extends AbstractMongoConfiguration {
 	    @Override
 	    protected String getDatabaseName() {return "demo-test";}
@@ -148,25 +133,5 @@ public class RepositoriesTest {
 		
 	    @Override
 	    protected String getMappingBasePackage() {return "nl.sogyo.assessment";}
-	}
-	
-	private class PersonTest extends Person {
-		public PersonTest (int id, String firstName, String lastName, String address, String gender, String phoneNumber) {
-			this.id = id;
-			this.firstName = firstName;
-			this.lastName = lastName;
-			this.address = address;
-			this.gender = gender;
-			this.phoneNumber = phoneNumber;
-		}
-	}
-	
-	private class CompanyTest extends Company {
-		public CompanyTest (int id, String companyName, String address, String phoneNumber) {
-			this.id = id;
-			this.companyName = companyName;
-			this.address = address;
-			this.phoneNumber = phoneNumber;
-		}
 	}
 }

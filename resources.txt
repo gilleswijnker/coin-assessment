@@ -3,3 +3,4 @@ mongoimport --db coin --collection assessment --jsonArray --drop --file .\addres
 https://spring.io/guides/gs/accessing-data-mongodb/
 https://www.npmjs.com/
 https://www.npmjs.com/package/request
+https://www.petrikainulainen.net/programming/spring-framework/creating-a-rest-api-with-spring-boot-and-mongodb/
