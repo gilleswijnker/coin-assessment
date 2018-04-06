@@ -17,3 +17,10 @@ Dag 3.
 - Poging gestaakt om via .json te werken. In test wordt Fongo-DB gevuld via code ipv .json.
 - Dit stelt mij in staat om via TDD het de benodigde queries te schrijven.
 - Mappenstructuur gedefinieerd
+
+Dag 4.
+- Begonnen met eerste testen schrijven
+- Eerste klassen gedefinieerd en met Spring gewerkt om Dependency Injection en MongoDB interactie te doen
+
+Dag 5.
+- Keuze gemaakt: bij elke front-end wijziging (andere query, andere 'pagina') wordt de query opnieuw uitgevoerd. Dan hoeft de back-end en view geen informatie vast te houden. Terwijl oorspronkelijke idee was om een interface tussen back-end en view te plaatsten die het mogelijk maakte om naar volgende/vorige 'pagina' te gaan.
