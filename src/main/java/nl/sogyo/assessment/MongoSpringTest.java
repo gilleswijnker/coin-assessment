@@ -1,9 +1,9 @@
 package nl.sogyo.assessment;
 
 import nl.sogyo.assessment.domain.DataNavigator;
-import nl.sogyo.assessment.domain.DatabaseEntity;
+import nl.sogyo.assessment.domain.DataEntity;
 import nl.sogyo.assessment.domain.IDataNavigator;
-import nl.sogyo.assessment.repositories.DatabaseRepository;
+import nl.sogyo.assessment.repositories.DataRepository;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

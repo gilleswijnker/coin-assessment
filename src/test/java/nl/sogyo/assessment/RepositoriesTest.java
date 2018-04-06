@@ -3,24 +3,22 @@ package nl.sogyo.assessment;
 import static com.lordofthejars.nosqlunit.mongodb.InMemoryMongoDb.InMemoryMongoRuleBuilder.newInMemoryMongoDbRule;
 import static com.lordofthejars.nosqlunit.mongodb.MongoDbRule.MongoDbRuleBuilder.newMongoDbRule;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
-
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -29,8 +27,8 @@ import com.lordofthejars.nosqlunit.mongodb.InMemoryMongoDb;
 import com.lordofthejars.nosqlunit.mongodb.MongoDbRule;
 import com.mongodb.MongoClient;
 
-import nl.sogyo.assessment.domain.DatabaseEntity;
-import nl.sogyo.assessment.repositories.DatabaseRepository;
+import nl.sogyo.assessment.domain.DataEntity;
+import nl.sogyo.assessment.repositories.DataRepository;
 
 
 @RunWith(SpringRunner.class)
@@ -46,17 +44,17 @@ public class RepositoriesTest {
     public MongoDbRule mongoDbRule = newMongoDbRule().defaultEmbeddedMongoDb("demo-test");
 
 //	@Autowired private ApplicationContext applicationContext;
-	@Autowired private DatabaseRepository databaseRepository;
+	@Autowired private DataRepository databaseRepository;
 	
 	@Before
 	public void setupDB() {
 		this.databaseRepository.deleteAll();
-		this.databaseRepository.save(new DatabaseEntity(1, "John", "D", "street1", "Male", "123456789"));
-		this.databaseRepository.save(new DatabaseEntity(2, "Jane", "A", "street2", "Female", "987654321"));
-		this.databaseRepository.save(new DatabaseEntity(3, "Adam", "C", "street3", "Female", "987654321"));
-		this.databaseRepository.save(new DatabaseEntity(4, "Bar", "street4", "582471693"));
-		this.databaseRepository.save(new DatabaseEntity(5, "Eel", "street5", "741852963"));
-		this.databaseRepository.save(new DatabaseEntity(6, "Foo", "street6", "741852963"));
+		this.databaseRepository.save(new DataEntity(1, "John", "D", "street1", "Male", "123456789"));
+		this.databaseRepository.save(new DataEntity(2, "Jane", "A", "street2", "Female", "987654321"));
+		this.databaseRepository.save(new DataEntity(3, "Adam", "C", "street3", "Female", "987654321"));
+		this.databaseRepository.save(new DataEntity(4, "Bar", "street4", "582471693"));
+		this.databaseRepository.save(new DataEntity(5, "Eel", "street5", "741852963"));
+		this.databaseRepository.save(new DataEntity(6, "Foo", "street6", "741852963"));
 	}
 	
 	/*
@@ -68,7 +66,7 @@ public class RepositoriesTest {
 		int page = 0;
 		
 		Pageable pageable = PageRequest.of(page, pageSize); 
-		Page<DatabaseEntity> pageDB = databaseRepository.findAll(pageable);
+		Page<DataEntity> pageDB = databaseRepository.findAll(pageable);
 		long nrItems = pageDB.getTotalElements();
 		Assert.assertEquals(6, nrItems);
 	}
@@ -79,7 +77,7 @@ public class RepositoriesTest {
 		int page = 0;
 		
 		Pageable pageable = PageRequest.of(page, pageSize, Direction.ASC, "id"); 
-		Page<DatabaseEntity> pageDB = databaseRepository.findAll(pageable);
+		Page<DataEntity> pageDB = databaseRepository.findAll(pageable);
 		String jsonPerson = pageDB.getContent().get(0).toJson();
 		String expectedJson = "{\"id\":1,\"firstName\":\"John\",\"lastName\":\"D\",\"address\":\"street1\",\"gender\":\"Male\",\"phoneNumber\":\"123456789\"}";
 		Assert.assertEquals(expectedJson, jsonPerson);
@@ -91,7 +89,7 @@ public class RepositoriesTest {
 		int page = 0;
 		
 		Pageable pageable = PageRequest.of(page, pageSize, Direction.ASC, "id"); 
-		Page<DatabaseEntity> pageDB = databaseRepository.findAll(pageable);
+		Page<DataEntity> pageDB = databaseRepository.findAll(pageable);
 		String jsonCompany = pageDB.getContent().get(4).toJson();
 		String expectedJson = "{\"id\":5,\"companyName\":\"Eel\",\"address\":\"street5\",\"phoneNumber\":\"741852963\"}";
 		Assert.assertEquals(expectedJson, jsonCompany);
@@ -103,7 +101,7 @@ public class RepositoriesTest {
 		int page = 0;
 		
 		Pageable pageable = PageRequest.of(page, pageSize, Direction.ASC, "id"); 
-		Page<DatabaseEntity> pageDB = databaseRepository.findInAllFields("street", pageable);
+		Page<DataEntity> pageDB = databaseRepository.findInAllFields("street", pageable);
 		long nrItems = pageDB.getTotalElements();
 		Assert.assertEquals(6, nrItems);
 	}
@@ -114,7 +112,7 @@ public class RepositoriesTest {
 		int page = 0;
 		
 		Pageable pageable = PageRequest.of(page, pageSize, Direction.ASC, "id"); 
-		Page<DatabaseEntity> pageDB = databaseRepository.findInAllFields("joh", pageable);
+		Page<DataEntity> pageDB = databaseRepository.findInAllFields("joh", pageable);
 		long nrItems = pageDB.getTotalElements();
 		Assert.assertEquals(1, nrItems);
 	}
@@ -122,7 +120,7 @@ public class RepositoriesTest {
 
 	@Configuration
 	@EnableMongoRepositories
-	@ComponentScan(basePackageClasses = {DatabaseRepository.class})
+	@ComponentScan(basePackageClasses = {DataRepository.class})
 	static class PersonRepoTestConfiguration extends AbstractMongoConfiguration {
 	    @Override
 	    protected String getDatabaseName() {return "demo-test";}
