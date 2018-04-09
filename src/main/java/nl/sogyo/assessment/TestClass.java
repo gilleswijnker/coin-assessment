@@ -1,12 +1,19 @@
 package nl.sogyo.assessment;
 
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-
-import nl.sogyo.assessment.repositories.helper.QueryCreator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TestClass {
+	public String a = "testa";
+	public String b = "testb";
+	
 	public static void main(String args[]) {
-		System.out.println(QueryCreator.queryAll());
+		TestClass tc = new TestClass();
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			System.out.println(mapper.writeValueAsString(tc));
+		} catch (JsonProcessingException ex) {
+			ex.printStackTrace();
+		}
 	}
 }

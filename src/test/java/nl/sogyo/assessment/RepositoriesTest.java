@@ -79,7 +79,7 @@ public class RepositoriesTest {
 		Pageable pageable = PageRequest.of(page, pageSize, Direction.ASC, "id"); 
 		Page<DataEntity> pageDB = databaseRepository.findAll(pageable);
 		String jsonPerson = pageDB.getContent().get(0).toJson();
-		String expectedJson = "{\"id\":1,\"firstName\":\"John\",\"lastName\":\"D\",\"address\":\"street1\",\"gender\":\"Male\",\"phoneNumber\":\"123456789\"}";
+		String expectedJson = "{\"id\":1,\"firstName\":\"John\",\"lastName\":\"D\",\"address\":\"street1\",\"gender\":\"Male\",\"phoneNumber\":\"123456789\",\"personOrCompany\":\"person\"}";
 		Assert.assertEquals(expectedJson, jsonPerson);
 	}
 	
@@ -91,7 +91,7 @@ public class RepositoriesTest {
 		Pageable pageable = PageRequest.of(page, pageSize, Direction.ASC, "id"); 
 		Page<DataEntity> pageDB = databaseRepository.findAll(pageable);
 		String jsonCompany = pageDB.getContent().get(4).toJson();
-		String expectedJson = "{\"id\":5,\"companyName\":\"Eel\",\"address\":\"street5\",\"phoneNumber\":\"741852963\"}";
+		String expectedJson = "{\"id\":5,\"companyName\":\"Eel\",\"address\":\"street5\",\"phoneNumber\":\"741852963\",\"personOrCompany\":\"company\"}";
 		Assert.assertEquals(expectedJson, jsonCompany);
 	}
 	
