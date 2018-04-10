@@ -33,7 +33,7 @@ public class MongoSpringTest implements CommandLineRunner{
 	public void run(String... args) {
 		IDataNavigator dn = dataNavigator.executeQuery("itter", 0, 10);
 		System.out.println(dn.getTotalElements());
-		System.out.println(dn.toJson());
+		System.out.println(dn.getResult());
 //		Integer[] l = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
 //		Pageable pageable = PageRequest.of(0, 5);
 //		Page<Integer> page = new PageImpl<Integer>(Arrays.asList(l), pageable, 16);

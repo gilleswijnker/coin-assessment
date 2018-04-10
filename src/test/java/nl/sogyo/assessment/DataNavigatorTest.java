@@ -56,7 +56,7 @@ public class DataNavigatorTest {
 		Mockito.when(dbPageMock.iterator()).thenReturn(list.iterator());
 		
 		IDataNavigator dn = dataNavigator.executeQuery(TEST_QUERY);
-		String json = dn.toJson();
+		String json = dn.getResult();
 		Assert.assertEquals("[{\"id\":1,\"personOrCompany\":\"person\"},{\"id\":2,\"personOrCompany\":\"person\"},{\"id\":3,\"personOrCompany\":\"person\"},{\"id\":4,\"personOrCompany\":\"person\"},{\"id\":5,\"personOrCompany\":\"person\"}]", json);
 	}
 }

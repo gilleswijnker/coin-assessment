@@ -9,13 +9,16 @@ module.exports = {
 	module: {
         loaders: [
             {
-                test: path.join(__dirname, '.'),
+                test: /\.js$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader',
                 query: {
                     presets: ['env', 'react']
                 }
-            }
+            }, {
+				test: /\.css$/,
+				use: [ 'style-loader', 'css-loader' ]
+			}
         ]
     }
 };

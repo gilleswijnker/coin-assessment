@@ -18,7 +18,7 @@ public class DataNavigator {
 	private DataNavigator() {}	
 	
 	public IDataNavigator executeQuery(final String query) {
-		return this.executeQuery(query, 0, 10);
+		return this.executeQuery(query, 1, 10);
 	}
 	
 	public IDataNavigator executeQuery(final String query, final int page, final int pageSize) {
@@ -30,7 +30,7 @@ public class DataNavigator {
 		private Page<DataEntity> dbPage = null;
 		
 		public innerDBNav(final String query, final int page, final int pageSize) {
-			Pageable pageable = PageRequest.of(page, pageSize);
+			Pageable pageable = PageRequest.of(page - 1, pageSize);
 			this.dbPage = databaseRepository.findInAllFields(query, pageable);
 		}
 		
@@ -41,11 +41,16 @@ public class DataNavigator {
 		
 		@Override
 		public int getPageNumber() {
-			return dbPage.getNumber();
+			return dbPage.getNumber() + 1;
 		}
 		
 		@Override
-		public String toJson() {
+		public int getTotalPages() {
+			return dbPage.getTotalPages();
+		}
+		
+		@Override
+		public String getResult() {
 			StringJoiner jsonRepresentation = new StringJoiner(",", "[", "]");
 			for (DataEntity dbEntity: dbPage) {
 				jsonRepresentation.add(dbEntity.toJson());

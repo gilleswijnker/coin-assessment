@@ -2,6 +2,7 @@ package nl.sogyo.assessment.controller;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -28,9 +29,14 @@ public class AppController implements ErrorController {
 	}
 	
 	@GetMapping(value = "/api/query")
-	public ResponseEntity<?> query(@RequestParam(value="searchvalue") String searchValue) {
-		IDataNavigator queryResult = dataNavigator.executeQuery(searchValue);
-		return new ResponseEntity<>(queryResult.toJson(), HttpStatus.OK);
+	public ResponseEntity<?> query(
+			@RequestParam(value="searchvalue") String searchValue,
+			@RequestParam(value="page", defaultValue="1") int page,
+			@RequestParam(value="pagesize", defaultValue="10") int pageSize
+	) {
+		System.out.println(page);
+		IDataNavigator queryResult = dataNavigator.executeQuery(searchValue, page, pageSize);
+		return new ResponseEntity<>(queryResult, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = ERROR_PATH)

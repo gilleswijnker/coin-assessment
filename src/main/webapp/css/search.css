@@ -1,3 +1,28 @@
-input {
-    margin: 5pt
+.search {
+    margin: 5pt;
+}
+
+.pageinfo {
+    margin-top: 10pt;
+    font-size: 80%;
+    border-width: 1pt;
+    border-color: black;
+    border-style: solid;
+}
+
+.entity {
+    margin-top: 5pt;
+    margin-bottom: 5pt;
+}
+
+.entity:hover {
+    cursor: pointer;
+}
+
+.company {
+    background-color: lemonchiffon;
+}
+
+.person {
+    background-color: olive;
 }
