@@ -25,5 +25,5 @@ Dag 4.
 Dag 5.
 - Keuze gemaakt: bij elke front-end wijziging (andere query, andere 'pagina') wordt de query opnieuw uitgevoerd. Dan hoeft de back-end en view geen informatie vast te houden. Terwijl oorspronkelijke idee was om een interface tussen back-end en view te plaatsten die het mogelijk maakte om naar volgende/vorige 'pagina' te gaan.
 
-mongo port niet gepublished, zou binnen swarm beschikbaar moeten zijn... als ik het goed begrijp
+mongo port niet gepublished, zou binnen swarm beschikbaar moeten zijn... als ik het goed begrijp. Update: klopt. In Dockercompose niet aangeven: services kunnen elkaar via naam vinden.
 Zie: https://github.com/moby/moby/issues/32299

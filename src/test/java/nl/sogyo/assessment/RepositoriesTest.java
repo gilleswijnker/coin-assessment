@@ -43,7 +43,6 @@ public class RepositoriesTest {
     @Rule
     public MongoDbRule mongoDbRule = newMongoDbRule().defaultEmbeddedMongoDb("demo-test");
 
-//	@Autowired private ApplicationContext applicationContext;
 	@Autowired private DataRepository databaseRepository;
 	
 	@Before
@@ -57,64 +56,58 @@ public class RepositoriesTest {
 		this.databaseRepository.save(new DataEntity(6, "Foo", "street6", "741852963"));
 	}
 	
+	private final int pageSize = 6;
+	private final int page = 0;
+	private final Pageable pageable = PageRequest.of(page, pageSize, Direction.ASC, "id"); 
+	
 	/*
 	 * Tests
 	 */
 	@Test
-	public void areAllRecordsFound() {
-		int pageSize = 2;
-		int page = 0;
-		
-		Pageable pageable = PageRequest.of(page, pageSize); 
-		Page<DataEntity> pageDB = databaseRepository.findAll(pageable);
+	public void doesSearchInAllFieldsFindSingle() {
+		this.testSearchHelper("joh", 1);
+	}
+	
+	@Test
+	public void doesSearchInAllFieldsFindAll() {		
+		this.testSearchHelper("street", 6);
+	}
+	
+	@Test
+	public void doesSearchInAllFieldsFindNone() {
+		this.testSearchHelper("does_not_exist", 0);
+	}
+	
+	private void testSearchHelper(final String searchTerm, final int expectedItems) {
+		Page<DataEntity> pageDB = databaseRepository.findInAllFields(searchTerm, pageable);
 		long nrItems = pageDB.getTotalElements();
-		Assert.assertEquals(6, nrItems);
+		Assert.assertEquals(expectedItems, nrItems);
 	}
 	
 	@Test
 	public void isJsonPersonCorrect() {
-		int pageSize = 6;
-		int page = 0;
-		
-		Pageable pageable = PageRequest.of(page, pageSize, Direction.ASC, "id"); 
-		Page<DataEntity> pageDB = databaseRepository.findAll(pageable);
+		Page<DataEntity> pageDB = databaseRepository.findInAllFields(".", pageable);
 		String jsonPerson = pageDB.getContent().get(0).toJson();
-		String expectedJson = "{\"id\":1,\"firstName\":\"John\",\"lastName\":\"D\",\"address\":\"street1\",\"gender\":\"Male\",\"phoneNumber\":\"123456789\",\"personOrCompany\":\"person\"}";
+		String expectedJson = "{\"id\":1,"
+				+ "\"firstName\":\"John\","
+				+ "\"lastName\":\"D\","
+				+ "\"address\":\"street1\","
+				+ "\"gender\":\"Male\","
+				+ "\"phoneNumber\":\"123456789\","
+				+ "\"personOrCompany\":\"person\"}";
 		Assert.assertEquals(expectedJson, jsonPerson);
 	}
 	
 	@Test
 	public void isJsonCompanyCorrect() {
-		int pageSize = 6;
-		int page = 0;
-		
-		Pageable pageable = PageRequest.of(page, pageSize, Direction.ASC, "id"); 
-		Page<DataEntity> pageDB = databaseRepository.findAll(pageable);
+		Page<DataEntity> pageDB = databaseRepository.findInAllFields(".", pageable);
 		String jsonCompany = pageDB.getContent().get(4).toJson();
-		String expectedJson = "{\"id\":5,\"companyName\":\"Eel\",\"address\":\"street5\",\"phoneNumber\":\"741852963\",\"personOrCompany\":\"company\"}";
+		String expectedJson = "{\"id\":5,"
+				+ "\"companyName\":\"Eel\","
+				+ "\"address\":\"street5\","
+				+ "\"phoneNumber\":\"741852963\","
+				+ "\"personOrCompany\":\"company\"}";
 		Assert.assertEquals(expectedJson, jsonCompany);
-	}
-	
-	@Test
-	public void doesSearchInAllFieldsFindAll() {
-		int pageSize = 6;
-		int page = 0;
-		
-		Pageable pageable = PageRequest.of(page, pageSize, Direction.ASC, "id"); 
-		Page<DataEntity> pageDB = databaseRepository.findInAllFields("street", pageable);
-		long nrItems = pageDB.getTotalElements();
-		Assert.assertEquals(6, nrItems);
-	}
-	
-	@Test
-	public void doesSearchInAllFieldsFindSingle() {
-		int pageSize = 6;
-		int page = 0;
-		
-		Pageable pageable = PageRequest.of(page, pageSize, Direction.ASC, "id"); 
-		Page<DataEntity> pageDB = databaseRepository.findInAllFields("joh", pageable);
-		long nrItems = pageDB.getTotalElements();
-		Assert.assertEquals(1, nrItems);
 	}
 	
 

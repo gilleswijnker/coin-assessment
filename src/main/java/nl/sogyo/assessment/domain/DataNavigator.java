@@ -15,11 +15,7 @@ public class DataNavigator {
 	@Autowired
 	private DataRepository databaseRepository;
 	
-	private DataNavigator() {}	
-	
-	public IDataNavigator executeQuery(final String query) {
-		return this.executeQuery(query, 1, 10);
-	}
+	private DataNavigator() {}
 	
 	public IDataNavigator executeQuery(final String query, final int page, final int pageSize) {
 		return new innerDBNav(query, page, pageSize);

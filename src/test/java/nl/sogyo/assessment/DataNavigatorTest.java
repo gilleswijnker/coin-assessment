@@ -42,7 +42,7 @@ public class DataNavigatorTest {
 	
 	@Test
 	public void doesNavigatorSuccesfullyInitializeInnerObjects() {
-		IDataNavigator dn = dataNavigator.executeQuery(TEST_QUERY);
+		IDataNavigator dn = dataNavigator.executeQuery(TEST_QUERY, 1, 10);
 		long total = dn.getTotalElements();
 		Assert.assertEquals(NUMBER_OF_ELEMENTS, total);
 	}
@@ -55,8 +55,13 @@ public class DataNavigatorTest {
 		}
 		Mockito.when(dbPageMock.iterator()).thenReturn(list.iterator());
 		
-		IDataNavigator dn = dataNavigator.executeQuery(TEST_QUERY);
+		IDataNavigator dn = dataNavigator.executeQuery(TEST_QUERY, 1, 10);
 		String json = dn.getResult();
-		Assert.assertEquals("[{\"id\":1,\"personOrCompany\":\"person\"},{\"id\":2,\"personOrCompany\":\"person\"},{\"id\":3,\"personOrCompany\":\"person\"},{\"id\":4,\"personOrCompany\":\"person\"},{\"id\":5,\"personOrCompany\":\"person\"}]", json);
+		Assert.assertEquals("[{\"id\":1,\"personOrCompany\":\"person\"},"
+				+ "{\"id\":2,\"personOrCompany\":\"person\"},"
+				+ "{\"id\":3,\"personOrCompany\":\"person\"},"
+				+ "{\"id\":4,\"personOrCompany\":\"person\"},"
+				+ "{\"id\":5,\"personOrCompany\":\"person\"}]"
+			, json);
 	}
 }

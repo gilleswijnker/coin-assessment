@@ -1,15 +1,12 @@
 package nl.sogyo.assessment.domain;
 
 import org.springframework.data.annotation.Id;
-//import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import nl.sogyo.assessment.repositories.helper.IQueryAll;
 
 @Document(collection="assessment")
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -18,18 +15,18 @@ public class DataEntity {
 	private String mongoId;
 	
 	@JsonProperty private int id;
-	@IQueryAll @JsonProperty private String firstName;
-	@IQueryAll @JsonProperty private String lastName;
-	@IQueryAll @JsonProperty private String companyName;
-	@IQueryAll @JsonProperty private String address;
-	@IQueryAll @JsonProperty private String gender;	
-	@IQueryAll @JsonProperty private String phoneNumber;
+	@JsonProperty private String firstName;
+	@JsonProperty private String lastName;
+	@JsonProperty private String companyName;
+	@JsonProperty private String address;
+	@JsonProperty private String gender;	
+	@JsonProperty private String phoneNumber;
 	
 	@JsonProperty private String personOrCompany;
 	
 	private final static String COMPANY = "company";
 	private final static String PERSON = "person"; 
-	private final static ObjectMapper MAPPER = new ObjectMapper();;
+	private final static ObjectMapper MAPPER = new ObjectMapper();
 	
 	// required for Spring to work properly
 	public DataEntity() {};

@@ -10,10 +10,13 @@ import nl.sogyo.assessment.domain.DataEntity;
 
 @Repository
 public interface DataRepository extends MongoRepository<DataEntity, String>{
-	@Override
-	@Query(value = "{}")
-	public Page<DataEntity> findAll(Pageable pageable);
-	
-	@Query(value = "{$or: [{firstName: {$regex: ?0, $options: 'i'}},{lastName: {$regex: ?0, $options: 'i'}},{companyName: {$regex: ?0, $options: 'i'}},{address: {$regex: ?0, $options: 'i'}},{gender: {$regex: ?0, $options: 'i'}},{phoneNumber: {$regex: ?0}}]}")
+	@Query(value = "{$or: ["
+			+ "{firstName: {$regex: ?0, $options: 'i'}},"
+			+ "{lastName: {$regex: ?0, $options: 'i'}},"
+			+ "{companyName: {$regex: ?0, $options: 'i'}},"
+			+ "{address: {$regex: ?0, $options: 'i'}},"
+			+ "{gender: {$regex: ?0, $options: 'i'}},"
+			+ "{phoneNumber: {$regex: ?0}}]}"
+	)
 	public Page<DataEntity> findInAllFields(String value, Pageable pageable);
 }
