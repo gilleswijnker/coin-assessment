@@ -6,5 +6,6 @@ target/
 .mvn/
 .vscode/
 node_modules/
+my_progress/
 mvnw*
 src/main/resources/static/

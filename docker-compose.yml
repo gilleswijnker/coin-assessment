@@ -28,7 +28,7 @@ services:
     depends_on:
       - seeddb
     ports:
-      - "8081:8080"
+      - "8080:8080"
     networks:
       - webnet
 
