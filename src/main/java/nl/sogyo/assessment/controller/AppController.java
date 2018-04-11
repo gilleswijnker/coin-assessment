@@ -34,7 +34,6 @@ public class AppController implements ErrorController {
 			@RequestParam(value="page", defaultValue="1") int page,
 			@RequestParam(value="pagesize", defaultValue="10") int pageSize
 	) {
-		System.out.println(page);
 		IDataNavigator queryResult = dataNavigator.executeQuery(searchValue, page, pageSize);
 		return new ResponseEntity<>(queryResult, HttpStatus.OK);
 	}
