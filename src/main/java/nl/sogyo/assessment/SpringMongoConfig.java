@@ -13,7 +13,7 @@ public class SpringMongoConfig {
 
 	@Bean
     public MongoClient mongo() throws Exception {
-        return new MongoClient("localhost");
+        return new MongoClient("mongo");
     }
  
     @Bean

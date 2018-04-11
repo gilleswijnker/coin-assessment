@@ -1,43 +1,36 @@
 version: "3"
 
 services:
-  mongodb:
+  mongo:
     image: mongo
-    ports:
-      - "27017:27017"
     deploy:
       placement:
         constraints: [node.role == manager]
+    ports:
+      - "27017:27017"
+    networks:
+      - webnet
+
+  seeddb:
+    image: gwijnker/coin:8-mongo
+    deploy:
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - mongo
     networks:
       - webnet
 
   app:
     # replace username/repo:tag with your name and image details
-    image: gwijnker/coin:1-app
+    image: gwijnker/coin:2-app
     deploy:
-      replicas: 2
-      resources:
-        limits:
-          cpus: "0.1"
-          memory: 50M
       restart_policy:
         condition: on-failure
     depends_on:
-      - address-records
+      - seeddb
     ports:
-      - "80:8080"
-    networks:
-      - webnet
- 
-  visualizer:
-    image: dockersamples/visualizer:stable
-    ports:
-      - "8080:8080"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    deploy:
-      placement:
-        constraints: [node.role == manager]
+      - "8081:8080"
     networks:
       - webnet
 
