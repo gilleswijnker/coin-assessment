@@ -29,7 +29,7 @@ mongoimport --db coin --collection assessment --jsonArray --drop --file ./addres
 Now run the application with `java -jar ./target/CoinSearchEngine-1.0.war`.
 
 ### Using the application
-The application is available at port 8080 via any internet browser. 
+The application is available at port 8080 via any internet browser (https://localhost:8080). Note that the certificate will not be trusted, as this is a 'home made' certificate which should be used during development.
 
 ### Content of the assessment
 See _assessment.md_ for the assessment
