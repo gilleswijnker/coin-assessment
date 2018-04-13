@@ -28,7 +28,7 @@ public class DataEntity {
 	private final static String PERSON = "person"; 
 	private final static ObjectMapper MAPPER = new ObjectMapper();
 	
-	// required for Spring to work properly
+	// required for this class to serve as Bean
 	public DataEntity() {};
 	
 	// company constructor

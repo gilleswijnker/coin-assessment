@@ -31,6 +31,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import nl.sogyo.assessment.domain.DataEntity;
 import nl.sogyo.assessment.repositories.DataRepository;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @RunWith(SpringRunner.class)

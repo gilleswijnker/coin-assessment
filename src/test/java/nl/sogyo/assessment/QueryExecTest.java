@@ -33,18 +33,26 @@ public class QueryExecTest {
 	
 	private final String TEST_QUERY= "test";
 	private final long NUMBER_OF_ELEMENTS = 6L;
+	private final int PAGE_NUMBER = 7;
+	private final int NUMBER_OF_PAGES = 13; 
 	
 	@Before
 	public void setupMockRepository() {
 		Mockito.when(dbPageMock.getTotalElements()).thenReturn(NUMBER_OF_ELEMENTS);
+		Mockito.when(dbPageMock.getNumber()).thenReturn(PAGE_NUMBER);
+		Mockito.when(dbPageMock.getTotalPages()).thenReturn(NUMBER_OF_PAGES);
 		Mockito.when(databaseRepositoryMock.findInAllFields(Mockito.anyString(), Mockito.any(Pageable.class))).thenReturn(dbPageMock);
 	}
 	
 	@Test
-	public void doesNavigatorSuccesfullyInitializeInnerObjects() {
-		IQueryResult dn = dataNavigator.executeQuery(TEST_QUERY, 1, 10);
-		long total = dn.getTotalElements();
+	public void isResultObjectCorrectlySetup() {
+		IQueryResult result = dataNavigator.executeQuery(TEST_QUERY, 1, 10);
+		long total = result.getTotalElements();
+		int page = result.getPageNumber();
+		int totalPages = result.getTotalPages();
 		Assert.assertEquals(NUMBER_OF_ELEMENTS, total);
+		Assert.assertEquals(PAGE_NUMBER + 1, page);
+		Assert.assertEquals(NUMBER_OF_PAGES, totalPages);
 	}
 	
 	@Test

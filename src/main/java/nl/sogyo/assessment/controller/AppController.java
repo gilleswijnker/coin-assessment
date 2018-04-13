@@ -22,11 +22,13 @@ public class AppController implements ErrorController {
 	@Autowired
 	QueryExec dataNavigator;
 	
+	// mapping to the search.html page
 	@RequestMapping(value = "/")
 	public String index() {
 		return "search";
 	}
 	
+	// mapping for a query request
 	@GetMapping(value = "/api/query")
 	public ResponseEntity<IQueryResult> query(
 			@RequestParam(value="searchvalue") String searchValue,
@@ -37,6 +39,7 @@ public class AppController implements ErrorController {
 		return new ResponseEntity<>(queryResult, HttpStatus.OK);
 	}
 	
+	// display custom error message when page not found
 	@RequestMapping(value = ERROR_PATH)
 	public ResponseEntity<?> errorPage(HttpServletRequest request) {
 		String url = request.getAttribute(RequestDispatcher.FORWARD_REQUEST_URI).toString();
