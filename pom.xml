@@ -83,6 +83,7 @@
 				<configuration>
 					<installDirectory>target</installDirectory>
 				</configuration>
+				<!-- Build webpack from ReactJS file -->
 				<executions>
 					<execution>
 						<id>install node and npm</id>
