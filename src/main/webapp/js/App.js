@@ -72,22 +72,10 @@ class SearchResults extends React.Component {
 	}
 }
 
-class Company extends React.Component {
+class ResultElement extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {hidden: true};
-	}
-
-	render() {
-		return (
-			<div className='entity company' onClick={() => this.onClick()}>
-				<p>Company:</p>
-				<p hidden={this.state.hidden}>{this.props.data.id}</p>
-				<p>{this.props.data.companyName}</p>
-				<p hidden={this.state.hidden}>{this.props.data.address}</p>
-				<p hidden={this.state.hidden}>{this.props.data.phoneNumber}</p>
-			</div>
-		)
 	}
 
 	onClick() {
@@ -95,28 +83,33 @@ class Company extends React.Component {
 	}
 }
 
-class Person extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {hidden: true};
+class Company extends ResultElement {
+	render() {
+		return (
+			<div className='entity company' onClick={() => this.onClick()}>
+				<p>Company:</p>
+				<p hidden={this.state.hidden}>id: {this.props.data.id}</p>
+				<p>{this.props.data.companyName}</p>
+				<p hidden={this.state.hidden}>address: {this.props.data.address}</p>
+				<p hidden={this.state.hidden}>phone number: {this.props.data.phoneNumber}</p>
+			</div>
+		)
 	}
+}
 
+class Person extends ResultElement {
 	render() {
 		return (
 			<div className='entity person' onClick={() => this.onClick()}>
 				<p>Person:</p>
-				<p hidden={this.state.hidden}>{this.props.data.id}</p>
-				<p hidden={this.state.hidden}>{this.props.data.firstName}</p>
+				<p hidden={this.state.hidden}>id: {this.props.data.id}</p>
+				<p hidden={this.state.hidden}>first name: {this.props.data.firstName}</p>
 				<p>{this.props.data.lastName}</p>
-				<p hidden={this.state.hidden}>{this.props.data.address}</p>
-				<p hidden={this.state.hidden}>{this.props.data.gender}</p>
-				<p hidden={this.state.hidden}>{this.props.data.phoneNumber}</p>
+				<p hidden={this.state.hidden}>address: {this.props.data.address}</p>
+				<p hidden={this.state.hidden}>gender: {this.props.data.gender}</p>
+				<p hidden={this.state.hidden}>phone number: {this.props.data.phoneNumber}</p>
 			</div>
 		)
-	}
-
-	onClick() {
-		this.setState({hidden: !this.state.hidden});
 	}
 }
 

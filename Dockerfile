@@ -6,5 +6,6 @@ WORKDIR /app
 
 # Copy the current directory contents into the container at /app
 COPY ./target/CoinSearchEngine-1.0.war /app
+COPY ./keystore.p12 /app
 
 CMD ["/usr/bin/java", "-jar", "./CoinSearchEngine-1.0.war"]
