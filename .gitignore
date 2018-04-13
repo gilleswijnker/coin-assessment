@@ -5,6 +5,8 @@
 target/
 .mvn/
 .vscode/
+resources.txt
+address_records/
 node_modules/
 my_progress/
 mvnw*

@@ -1,6 +1,6 @@
 package nl.sogyo.assessment.domain;
 
-public interface IDataNavigator {
+public interface IQueryResult {
 	public long getTotalElements();
 	public int getPageNumber();
 	public int getTotalPages();

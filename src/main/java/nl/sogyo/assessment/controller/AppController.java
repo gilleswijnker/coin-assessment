@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import nl.sogyo.assessment.domain.DataNavigator;
-import nl.sogyo.assessment.domain.IDataNavigator;
+import nl.sogyo.assessment.domain.QueryExec;
+import nl.sogyo.assessment.domain.IQueryResult;
 
 @Controller
 public class AppController implements ErrorController {
 	private final static String ERROR_PATH = "/error";
 	
 	@Autowired
-	DataNavigator dataNavigator;
+	QueryExec dataNavigator;
 	
 	@RequestMapping(value = "/")
 	public String index() {
@@ -28,12 +28,12 @@ public class AppController implements ErrorController {
 	}
 	
 	@GetMapping(value = "/api/query")
-	public ResponseEntity<?> query(
+	public ResponseEntity<IQueryResult> query(
 			@RequestParam(value="searchvalue") String searchValue,
 			@RequestParam(value="page", defaultValue="1") int page,
 			@RequestParam(value="pagesize", defaultValue="10") int pageSize
 	) {
-		IDataNavigator queryResult = dataNavigator.executeQuery(searchValue, page, pageSize);
+		IQueryResult queryResult = dataNavigator.executeQuery(searchValue, page, pageSize);
 		return new ResponseEntity<>(queryResult, HttpStatus.OK);
 	}
 	

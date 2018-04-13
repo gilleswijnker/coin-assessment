@@ -15,18 +15,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import nl.sogyo.assessment.domain.DataNavigator;
+import nl.sogyo.assessment.domain.QueryExec;
 import nl.sogyo.assessment.domain.DataEntity;
-import nl.sogyo.assessment.domain.IDataNavigator;
+import nl.sogyo.assessment.domain.IQueryResult;
 import nl.sogyo.assessment.repositories.DataRepository;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {DataRepository.class, DataNavigator.class})
-public class DataNavigatorTest {
+@SpringBootTest(classes = {DataRepository.class, QueryExec.class})
+public class QueryExecTest {
 	@MockBean DataRepository databaseRepositoryMock;
 	
 	@Autowired
-	DataNavigator dataNavigator;
+	QueryExec dataNavigator;
 	
 	@Mock
 	Page<DataEntity> dbPageMock;
@@ -42,7 +42,7 @@ public class DataNavigatorTest {
 	
 	@Test
 	public void doesNavigatorSuccesfullyInitializeInnerObjects() {
-		IDataNavigator dn = dataNavigator.executeQuery(TEST_QUERY, 1, 10);
+		IQueryResult dn = dataNavigator.executeQuery(TEST_QUERY, 1, 10);
 		long total = dn.getTotalElements();
 		Assert.assertEquals(NUMBER_OF_ELEMENTS, total);
 	}
@@ -55,7 +55,7 @@ public class DataNavigatorTest {
 		}
 		Mockito.when(dbPageMock.iterator()).thenReturn(list.iterator());
 		
-		IDataNavigator dn = dataNavigator.executeQuery(TEST_QUERY, 1, 10);
+		IQueryResult dn = dataNavigator.executeQuery(TEST_QUERY, 1, 10);
 		String json = dn.getResult();
 		Assert.assertEquals("[{\"id\":1,\"personOrCompany\":\"person\"},"
 				+ "{\"id\":2,\"personOrCompany\":\"person\"},"

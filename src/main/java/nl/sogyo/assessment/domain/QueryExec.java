@@ -11,18 +11,18 @@ import org.springframework.stereotype.Service;
 import nl.sogyo.assessment.repositories.DataRepository;
 
 @Service
-public class DataNavigator {
+public class QueryExec {
 	@Autowired
 	private DataRepository databaseRepository;
 	
-	private DataNavigator() {}
+	private QueryExec() {}
 	
-	public IDataNavigator executeQuery(final String query, final int page, final int pageSize) {
+	public IQueryResult executeQuery(final String query, final int page, final int pageSize) {
 		return new innerDBNav(query, page, pageSize);
 	}
 	
 	// inner class to force the use of executeQuery: ensures 'dbPage' is not null
-	private class innerDBNav implements IDataNavigator{
+	private class innerDBNav implements IQueryResult{
 		private Page<DataEntity> dbPage = null;
 		
 		public innerDBNav(final String query, final int page, final int pageSize) {
