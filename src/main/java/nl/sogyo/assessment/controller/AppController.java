@@ -61,7 +61,7 @@ public class AppController implements ErrorController {
 		String errMessage = "[Query: " + query + "][Page: " + page + "][Page size: " + pageSize + "] ";
 		errMessage += ex.getMessage();
 		LOG.error(errMessage);
-		return new ResponseEntity<>("Invalid query", HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>("{\"errmsg\": \"Invalid query\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@Override

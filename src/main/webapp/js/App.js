@@ -44,7 +44,12 @@ class App extends React.Component {
 		fetch(
 			'/api/query?searchvalue=' + this.state.searchValue + "&page=" + this.state.page
 		).then(
-			result => {return result.json()}
+			result => {
+				if (!result.ok) {
+					throw result.json()
+				}
+				return result.json()
+			}
 		).then(
 			data => {
 				console.log(data);
@@ -55,7 +60,9 @@ class App extends React.Component {
 					totalResults: data.totalElements
 				})
 			}
-		)
+		).catch(
+			error => console.log(error)
+		);
 	}
 
 	changePageNumber(gotoPage) {
@@ -88,10 +95,10 @@ class Company extends ResultElement {
 		return (
 			<div className='entity company' onClick={() => this.onClick()}>
 				<p>Company:</p>
-				<p hidden={this.state.hidden}>id: {this.props.data.id}</p>
-				<p>{this.props.data.companyName}</p>
-				<p hidden={this.state.hidden}>address: {this.props.data.address}</p>
-				<p hidden={this.state.hidden}>phone number: {this.props.data.phoneNumber}</p>
+				<p hidden={!this.state.hidden}>{this.props.data.companyName}, {this.props.data.address}</p>
+				<p hidden={this.state.hidden}>Name: {this.props.data.companyName}</p>
+				<p hidden={this.state.hidden}>Address: {this.props.data.address}</p>
+				<p hidden={this.state.hidden}>Phone number: {this.props.data.phoneNumber}</p>
 			</div>
 		)
 	}
@@ -102,12 +109,12 @@ class Person extends ResultElement {
 		return (
 			<div className='entity person' onClick={() => this.onClick()}>
 				<p>Person:</p>
-				<p hidden={this.state.hidden}>id: {this.props.data.id}</p>
-				<p hidden={this.state.hidden}>first name: {this.props.data.firstName}</p>
-				<p>{this.props.data.lastName}</p>
-				<p hidden={this.state.hidden}>address: {this.props.data.address}</p>
-				<p hidden={this.state.hidden}>gender: {this.props.data.gender}</p>
-				<p hidden={this.state.hidden}>phone number: {this.props.data.phoneNumber}</p>
+				<p hidden={!this.state.hidden}>{this.props.data.lastName}, {this.props.data.address}</p>
+				<p hidden={this.state.hidden}>First name: {this.props.data.firstName}</p>
+				<p hidden={this.state.hidden}>Last name: {this.props.data.lastName}</p>
+				<p hidden={this.state.hidden}>Address: {this.props.data.address}</p>
+				<p hidden={this.state.hidden}>Gender: {this.props.data.gender}</p>
+				<p hidden={this.state.hidden}>Phone number: {this.props.data.phoneNumber}</p>
 			</div>
 		)
 	}
