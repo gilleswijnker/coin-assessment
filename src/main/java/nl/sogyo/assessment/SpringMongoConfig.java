@@ -15,7 +15,7 @@ public class SpringMongoConfig {
     public MongoClient mongo() throws Exception {
 		// note: 'mongo' is name of the Docker service where the mongo daemon lives
 		// 		 This app needs this to find the daemon
-        return new MongoClient("mongo");
+        return new MongoClient("localhost");
     }
  
     @Bean

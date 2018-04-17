@@ -3,14 +3,20 @@ package nl.sogyo.assessment.controller;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.mongodb.MongoQueryException;
 
 import nl.sogyo.assessment.domain.QueryExec;
 import nl.sogyo.assessment.domain.IQueryResult;
@@ -18,6 +24,7 @@ import nl.sogyo.assessment.domain.IQueryResult;
 @Controller
 public class AppController implements ErrorController {
 	private final static String ERROR_PATH = "/error";
+	private final static Logger LOG = LogManager.getLogger(AppController.class);
 	
 	@Autowired
 	QueryExec dataNavigator;
@@ -44,6 +51,16 @@ public class AppController implements ErrorController {
 	public ResponseEntity<?> errorPage(HttpServletRequest request) {
 		String url = request.getAttribute(RequestDispatcher.FORWARD_REQUEST_URI).toString();
 		return new ResponseEntity<>("ErrorPage<br/><br/>" + url + " not found.", HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler({MongoQueryException.class})
+	public void handleQueryException(HttpServletRequest req, Exception ex) {
+		final String query = req.getParameter("searchvalue");
+		final String page = req.getParameter("page");
+		final String pageSize = req.getParameter("pagesize");
+		String errMessage = "[Query: " + query + "][Page: " + page + "][Page size: " + pageSize + "] ";
+		errMessage += ex.getMessage();
+		LOG.error(errMessage);
 	}
 
 	@Override

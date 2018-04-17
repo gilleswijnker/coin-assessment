@@ -12,3 +12,5 @@ my_progress/
 mvnw*
 src/main/resources/static/*
 !src/main/resources/static/favicon.ico
+.dockerignore
+*.log
