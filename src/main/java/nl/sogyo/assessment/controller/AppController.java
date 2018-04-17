@@ -54,13 +54,14 @@ public class AppController implements ErrorController {
 	}
 	
 	@ExceptionHandler({MongoQueryException.class})
-	public void handleQueryException(HttpServletRequest req, Exception ex) {
+	public ResponseEntity<?> handleQueryException(HttpServletRequest req, Exception ex) {
 		final String query = req.getParameter("searchvalue");
 		final String page = req.getParameter("page");
 		final String pageSize = req.getParameter("pagesize");
 		String errMessage = "[Query: " + query + "][Page: " + page + "][Page size: " + pageSize + "] ";
 		errMessage += ex.getMessage();
 		LOG.error(errMessage);
+		return new ResponseEntity<>("Invalid query", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@Override
