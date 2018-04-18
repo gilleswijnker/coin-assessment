@@ -45,14 +45,14 @@ class App extends React.Component {
 			'/api/query?searchvalue=' + this.state.searchValue + "&page=" + this.state.page
 		).then(
 			result => {
+				const json = result.json();
 				if (!result.ok) {
-					throw result.json()
+					return json.then(err => {throw err.errMessage})
 				}
-				return result.json()
+				return json;
 			}
 		).then(
 			data => {
-				console.log(data);
 				this.setState({
 					result: JSON.parse(data.result),
 					page: data.pageNumber,
@@ -61,7 +61,7 @@ class App extends React.Component {
 				})
 			}
 		).catch(
-			error => console.log(error)
+			err => console.log(err)
 		);
 	}
 

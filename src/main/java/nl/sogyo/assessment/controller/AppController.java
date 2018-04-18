@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.mongodb.MongoQueryException;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import nl.sogyo.assessment.domain.QueryExec;
 import nl.sogyo.assessment.domain.IQueryResult;
@@ -53,19 +53,34 @@ public class AppController implements ErrorController {
 		return new ResponseEntity<>("ErrorPage<br/><br/>" + url + " not found.", HttpStatus.NOT_FOUND);
 	}
 	
-	@ExceptionHandler({MongoQueryException.class})
-	public ResponseEntity<?> handleQueryException(HttpServletRequest req, Exception ex) {
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseBody
+	public ErrorResponse handleQueryException(HttpServletRequest req, Exception ex) {
 		final String query = req.getParameter("searchvalue");
 		final String page = req.getParameter("page");
 		final String pageSize = req.getParameter("pagesize");
-		String errMessage = "[Query: " + query + "][Page: " + page + "][Page size: " + pageSize + "] ";
-		errMessage += ex.getMessage();
-		LOG.error(errMessage);
-		return new ResponseEntity<>("{\"errmsg\": \"Invalid query\"}", HttpStatus.INTERNAL_SERVER_ERROR);
+		final String errName = ex.getClass().getName();
+		final String errMessage = "[" + errName + "][Query: " + query + "][Page: " + page + "][Page size: " + pageSize + "] ";
+		LOG.error(errMessage + ex.getMessage());
+		return new ErrorResponse("Error in processing request: " + errMessage);
 	}
 
 	@Override
 	public String getErrorPath() {
 		return ERROR_PATH;
+	}
+	
+	// used to let Spring create a JSON response of an error
+	private static class ErrorResponse {
+		private String errMessage;
+		
+		public String getErrMessage() {
+			return this.errMessage;
+		}
+		
+		public ErrorResponse(String msg) {
+			this.errMessage = msg;
+		}
 	}
 }
