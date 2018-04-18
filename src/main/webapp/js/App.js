@@ -133,6 +133,8 @@ class PageInformation extends React.Component {
 	render() {
 		return (
 			<div className='pageinfo'>
+				<button onClick={() => this.togglePage(-1)}>Vorige...</button>
+				<button onClick={() => this.togglePage(1)}>Volgende...</button>
 				<p>Pagina: {this.props.page} van {this.props.totalPages}. Totaal resultaten: {this.props.totalResults}</p>
 				<form onSubmit={(e) => this.changePageNumber(e)}>
 					Ga naar pagina: <input type="number" defaultValue="1" min="1" max={this.props.totalPages} onChange={(e) => this.handleChange(e)}/>
@@ -142,8 +144,17 @@ class PageInformation extends React.Component {
 		)
 	}
 
+	togglePage(i) {
+		const newPage = this.state.page + i;
+		if (newPage > 0 && newPage <= this.props.totalPages) {
+			this.setState({page: newPage}, this.changePageNumber);
+		}
+	}
+
 	changePageNumber(event) {
-		event.preventDefault();
+		if (event != null) {
+			event.preventDefault();
+		}
 		this.props.onSubmit(this.state.page);
 	}
 }

@@ -29,7 +29,6 @@ public class QueryExec {
 		public innerDBNav(final String query, final int page, final int pageSize) {
 			String parsedQuery = ParseQuery.parse(query);
 			Pageable pageable = PageRequest.of(page - 1, pageSize);
-			System.out.println(parsedQuery);
 			this.dbPage = databaseRepository.findInAllFields(parsedQuery, pageable);
 		}
 		
