@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import nl.sogyo.assessment.repositories.DataRepository;
+import nl.sogyo.assessment.repositories.helper.ParseQuery;
 
 @Service
 public class QueryExec {
@@ -26,8 +27,10 @@ public class QueryExec {
 		private Page<DataEntity> dbPage = null;
 		
 		public innerDBNav(final String query, final int page, final int pageSize) {
+			String parsedQuery = ParseQuery.parse(query);
 			Pageable pageable = PageRequest.of(page - 1, pageSize);
-			this.dbPage = databaseRepository.findInAllFields(query, pageable);
+			System.out.println(parsedQuery);
+			this.dbPage = databaseRepository.findInAllFields(parsedQuery, pageable);
 		}
 		
 		@Override

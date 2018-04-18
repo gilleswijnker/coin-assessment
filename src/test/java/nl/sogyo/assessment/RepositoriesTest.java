@@ -29,6 +29,7 @@ import com.mongodb.MongoClient;
 
 import nl.sogyo.assessment.domain.DataEntity;
 import nl.sogyo.assessment.repositories.DataRepository;
+import nl.sogyo.assessment.repositories.helper.ParseQuery;
 
 
 @RunWith(SpringRunner.class)
@@ -108,6 +109,11 @@ public class RepositoriesTest {
 				+ "\"phoneNumber\":\"741852963\","
 				+ "\"personOrCompany\":\"company\"}";
 		Assert.assertEquals(expectedJson, jsonCompany);
+	}
+	
+	@Test
+	public void doesSearchOnMultipleCriteriaWork() {
+		this.testSearchHelper(ParseQuery.parse("john street1"), 1);
 	}
 	
 	/*
