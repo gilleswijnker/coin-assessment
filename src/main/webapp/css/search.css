@@ -18,11 +18,3 @@
 .entity:hover {
     cursor: pointer;
 }
-
-.company {
-    background-color: lemonchiffon;
-}
-
-.person {
-    background-color: olive;
-}

@@ -1,27 +1,29 @@
 {
- "name": "Assessment-Coin",
- "version": "1.0.0",
- "description": "Applicatie voor Assessment voor Vereniging Coin",
- "main": "...js",
- "licence": "no licence",
- "repository": {
-  "type": "git",
-  "url": "https://git.sogyo.nl/gwijnker/coin-assessment"
- },
- "dependencies": {
-  "babel-preset-env": "^1.6.1",
-  "react": "^16.3.1",
-  "react-dom": "^16.3.1",
-  "react-scripts": "1.1.4"
- },
- "scripts": {
-  "start": "react-scripts start",
-  "build": "react-scripts build",
-  "test": "react-scripts test --env=jsdom",
-  "eject": "react-scripts eject"
- },
- "devDependencies": {
-  "css-loader": "^0.28.11",
-  "style-loader": "^0.20.3"
- }
+  "name": "Assessment-Coin",
+  "version": "1.0.0",
+  "description": "Applicatie voor Assessment voor Vereniging Coin",
+  "main": "...js",
+  "licence": "no licence",
+  "repository": {
+    "type": "git",
+    "url": "https://git.sogyo.nl/gwijnker/coin-assessment"
+  },
+  "dependencies": {
+    "babel-preset-env": "^1.6.1",
+    "material-ui": "0.20.0",
+    "prop-types": "^15.6.1",
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.11",
+    "style-loader": "^0.20.3"
+  }
 }

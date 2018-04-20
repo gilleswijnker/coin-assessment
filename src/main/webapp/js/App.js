@@ -2,6 +2,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {List, ListItem} from 'material-ui/List';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Avatar from 'material-ui/Avatar';
 import '../css/search.css';
 
 class App extends React.Component {
@@ -29,7 +32,11 @@ class App extends React.Component {
 					<input className="search" type="text" onChange={(e) => this.handleChange(e)} />
 					<input type="submit" value="Zoek"/>
 				</form>
-				<SearchResults results={this.state.result}/>
+				<MuiThemeProvider>
+					<List>
+						<SearchResults results={this.state.result}/>
+					</List>
+				</MuiThemeProvider>
 				<PageInformation page={this.state.page} totalPages={this.state.totalPages} totalResults={this.state.totalResults} onSubmit={(page) => this.changePageNumber(page)}/>
 			</div>
 		)
@@ -93,29 +100,34 @@ class ResultElement extends React.Component {
 class Company extends ResultElement {
 	render() {
 		return (
-			<div className='entity company' onClick={() => this.onClick()}>
-				<p>Company:</p>
-				<p hidden={!this.state.hidden}>{this.props.data.companyName}, {this.props.data.address}</p>
-				<p hidden={this.state.hidden}>Name: {this.props.data.companyName}</p>
-				<p hidden={this.state.hidden}>Address: {this.props.data.address}</p>
-				<p hidden={this.state.hidden}>Phone number: {this.props.data.phoneNumber}</p>
-			</div>
+			<ListItem value={this.props.key}
+				primaryText={this.props.data.companyName + ', ' + this.props.data.address}
+				primaryTogglesNestedList={true}
+				leftAvatar={<Avatar src='img/Company.png'/>}
+				nestedItems={[
+					<ListItem primaryText={'Name: ' + this.props.data.companyName} disabled={true}/>,
+					<ListItem primaryText={'Address: ' + this.props.data.address} disabled={true}/>,
+					<ListItem primaryText={'Phone number: ' + this.props.data.phoneNumber} disabled={true}/>
+				]} 
+			/>
 		)
 	}
 }
 
 class Person extends ResultElement {
 	render() {
-		return (
-			<div className='entity person' onClick={() => this.onClick()}>
-				<p>Person:</p>
-				<p hidden={!this.state.hidden}>{this.props.data.lastName}, {this.props.data.address}</p>
-				<p hidden={this.state.hidden}>First name: {this.props.data.firstName}</p>
-				<p hidden={this.state.hidden}>Last name: {this.props.data.lastName}</p>
-				<p hidden={this.state.hidden}>Address: {this.props.data.address}</p>
-				<p hidden={this.state.hidden}>Gender: {this.props.data.gender}</p>
-				<p hidden={this.state.hidden}>Phone number: {this.props.data.phoneNumber}</p>
-			</div>
+	return (
+			<ListItem value={this.props.key}
+				primaryText={this.props.data.lastName + ', ' + this.props.data.address}
+				primaryTogglesNestedList={true}
+				leftAvatar={<Avatar src='img/Person.png'/>}
+				nestedItems={[
+					<ListItem primaryText={'Name: ' + this.props.data.firstName + ' ' + this.props.data.lastName} disabled={true}/>,
+					<ListItem primaryText={'Address: ' + this.props.data.address} disabled={true}/>,
+					<ListItem primaryText={'Gender: ' + this.props.data.gender} disabled={true}/>,
+					<ListItem primaryText={'Phone number: ' + this.props.data.phoneNumber} disabled={true}/>
+				]}
+			/>
 		)
 	}
 }
@@ -148,7 +160,7 @@ class PageInformation extends React.Component {
 		const newPage = this.state.page + i;
 		if (newPage > 0 && newPage <= this.props.totalPages) {
 			this.setState({page: newPage}, this.changePageNumber);
-		}
+		}1
 	}
 
 	changePageNumber(event) {

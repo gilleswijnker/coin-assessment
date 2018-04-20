@@ -20,7 +20,7 @@ services:
       - webnet
 
   app:
-    image: gwijnker/coin:4-app
+    image: gwijnker/coin:1.0-app
     deploy:
       restart_policy:
         condition: on-failure
@@ -28,6 +28,8 @@ services:
       - seeddb
     ports:
       - "8080:8080"
+    volumes:
+      - "/data:/data"
     networks:
       - webnet
 
