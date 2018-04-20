@@ -81,55 +81,45 @@ class App extends React.Component {
 class SearchResults extends React.Component {
 	render() {
 		return this.props.results.map((data, i) => {
-			return data.personOrCompany === "company" ? <Company key={i} data={data}/> : <Person key={i} data={data}/>
+			return data.personOrCompany === "company" ? CompanyFactory(i, data) : PersonFactory(i, data)
 		})
 	}
 }
 
-class ResultElement extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {hidden: true};
-	}
-
-	onClick() {
-		this.setState({hidden: !this.state.hidden});
-	}
-}
-
-class Company extends ResultElement {
-	render() {
-		return (
-			<ListItem value={this.props.key}
-				primaryText={this.props.data.companyName + ', ' + this.props.data.address}
-				primaryTogglesNestedList={true}
-				leftAvatar={<Avatar src='img/Company.png'/>}
-				nestedItems={[
-					<ListItem primaryText={'Name: ' + this.props.data.companyName} disabled={true}/>,
-					<ListItem primaryText={'Address: ' + this.props.data.address} disabled={true}/>,
-					<ListItem primaryText={'Phone number: ' + this.props.data.phoneNumber} disabled={true}/>
-				]} 
-			/>
-		)
-	}
-}
-
-class Person extends ResultElement {
-	render() {
+function CompanyFactory(key, data) {
 	return (
-			<ListItem value={this.props.key}
-				primaryText={this.props.data.lastName + ', ' + this.props.data.address}
-				primaryTogglesNestedList={true}
-				leftAvatar={<Avatar src='img/Person.png'/>}
-				nestedItems={[
-					<ListItem primaryText={'Name: ' + this.props.data.firstName + ' ' + this.props.data.lastName} disabled={true}/>,
-					<ListItem primaryText={'Address: ' + this.props.data.address} disabled={true}/>,
-					<ListItem primaryText={'Gender: ' + this.props.data.gender} disabled={true}/>,
-					<ListItem primaryText={'Phone number: ' + this.props.data.phoneNumber} disabled={true}/>
-				]}
-			/>
-		)
-	}
+		<ListItem key={key}
+			primaryText={data.companyName + ', ' + data.address}
+			primaryTogglesNestedList={true}
+			leftAvatar={<Avatar src='img/Company.png'/>}
+			nestedItems={[
+				ListItemFactory(key, 1, 'Name: ' + data.companyName),
+				ListItemFactory(key, 2, 'Address: ' + data.address),
+				ListItemFactory(key, 3, 'Phone number: ' + data.phoneNumber)
+			]} 
+		/>
+	)
+}
+
+function PersonFactory(key, data) {
+	return (
+		<ListItem key={key}
+			primaryText={data.lastName + ', ' + data.address}
+			primaryTogglesNestedList={true}
+			leftAvatar={<Avatar src='img/Person.png'/>}
+			nestedItems={[
+				ListItemFactory(key, 1, 'Name: ' + data.firstName + ' ' + data.lastName),
+				ListItemFactory(key, 2, 'Address: ' + data.address),
+				ListItemFactory(key, 3, 'Gender: ' + data.gender),
+				ListItemFactory(key, 4, 'Phone number: ' + data.phoneNumber)
+			]}
+		/>
+	)
+}
+
+function ListItemFactory(i, j, text) {
+	const key = 10*(i+1) + j;
+	return <ListItem key={key} primaryText={text} disabled={true}/>
 }
 
 class PageInformation extends React.Component {

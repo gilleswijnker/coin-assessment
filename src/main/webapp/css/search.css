@@ -9,12 +9,3 @@
     border-color: black;
     border-style: solid;
 }
-
-.entity {
-    margin-top: 5pt;
-    margin-bottom: 5pt;
-}
-
-.entity:hover {
-    cursor: pointer;
-}
